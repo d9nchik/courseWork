@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         long[][] matrix1 = generateMatrix(3000, 1000);
         long[][] matrix2 = generateMatrix(1000, 3000);
-        System.out.println(checker(MultiplicationsOfMatrix.simpleMultiplication(matrix1, matrix2), MultiplicationsOfMatrix.strassenMultiplication(matrix1, matrix2)));
+        System.out.println(checker(MultiplicationsOfMatrix.simpleMultiplication(matrix1, matrix2), MultiplicationsOfMatrix.winogradMultiplication(matrix1, matrix2)));
     }
 
     public static void showMatrix(double[][] matrix) {

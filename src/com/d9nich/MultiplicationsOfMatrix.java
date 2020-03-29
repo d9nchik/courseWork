@@ -26,6 +26,62 @@ public class MultiplicationsOfMatrix {
         return output;
     }
 
+    public static long[][] winogradMultiplication(long[][] matrix1, long[][] matrix2) {
+        int dimension = getNewDimension(matrix1, matrix2);
+        long[][] resultMatrix = realMultiWinograd(toSquareMatrix(matrix1, dimension), toSquareMatrix(matrix2, dimension));
+        long[][] output = new long[matrix1.length][matrix2[0].length];
+        for (int i = 0; i < output.length; i++)
+            System.arraycopy(resultMatrix[i], 0, output[i], 0, output[0].length);
+        return output;
+    }
+
+    private static long[][] realMultiWinograd(long[][] matrix1, long[][] matrix2) {
+        if (matrix1.length <= 64)
+            return simpleMultiplication(matrix1, matrix2);
+
+        int n = matrix1.length >> 1;
+
+        long[][] a11 = new long[n][n];
+        long[][] a12 = new long[n][n];
+        long[][] a21 = new long[n][n];
+        long[][] a22 = new long[n][n];
+
+        long[][] b11 = new long[n][n];
+        long[][] b12 = new long[n][n];
+        long[][] b21 = new long[n][n];
+        long[][] b22 = new long[n][n];
+
+
+        splitMatrix(matrix1, a11, a12, a21, a22);
+        splitMatrix(matrix2, b11, b12, b21, b22);
+
+        long[][] s1 = add(a21, a22);
+        long[][] s2 = subtract(s1, a11);
+        long[][] s3 = subtract(a11, a21);
+        long[][] s4 = subtract(a12, s2);
+        long[][] s5 = subtract(b12, b11);
+        long[][] s6 = subtract(b22, s5);
+        long[][] s7 = subtract(b22, b12);
+        long[][] s8 = subtract(s6, b21);
+
+        long[][] p1 = realMultiWinograd(s2, s6);
+        long[][] p2 = realMultiWinograd(a11, b11);
+        long[][] p3 = realMultiWinograd(a12, b21);
+        long[][] p4 = realMultiWinograd(s3, s7);
+        long[][] p5 = realMultiWinograd(s1, s5);
+        long[][] p6 = realMultiWinograd(s4, b22);
+        long[][] p7 = realMultiWinograd(a22, s8);
+
+        long[][] t1 = add(p1, p2);
+        long[][] t2 = add(t1, p4);
+
+        long[][] c11 = add(p2, p3);
+        long[][] c12 = add(t1, add(p5, p6));
+        long[][] c21 = subtract(t2, p7);
+        long[][] c22 = add(t2, p5);
+        return joinMatrix(c11, c12, c21, c22);
+    }
+
     private static long[][] realMultiStrassen(long[][] matrix1, long[][] matrix2) {
         if (matrix1.length <= 64)
             return simpleMultiplication(matrix1, matrix2);
