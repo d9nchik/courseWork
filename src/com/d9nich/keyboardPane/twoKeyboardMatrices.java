@@ -11,11 +11,11 @@ public class twoKeyboardMatrices extends HBox {
         setSpacing(10);
     }
 
-    private long[][] getMatrixA() {
+    public long[][] getMatrixA() {
         return matrixA.getMatrix();
     }
 
-    private long[][] getMatrixB() {
+    public long[][] getMatrixB() {
         return matrixB.getMatrix();
     }
 }

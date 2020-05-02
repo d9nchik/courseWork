@@ -10,8 +10,8 @@ import javafx.stage.Stage;
 import java.io.File;
 
 public class MatrixFilePane extends VBox {
-    Text matrixAPath = new Text("Choose matrix A path");
-    Text matrixBPath = new Text("Choose matrix B path");
+    private final Text matrixAPath = new Text("Choose matrix A path");
+    private final Text matrixBPath = new Text("Choose matrix B path");
 
     public MatrixFilePane() {
         setSpacing(10);
@@ -37,5 +37,13 @@ public class MatrixFilePane extends VBox {
         secondHBox.getChildren().addAll(matrixBPath, setPathB);
 
         getChildren().addAll(firstHBox, secondHBox);
+    }
+
+    public String getMatrixAPath() {
+        return matrixAPath.getText();
+    }
+
+    public String getMatrixBPath() {
+        return matrixBPath.getText();
     }
 }

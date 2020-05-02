@@ -95,19 +95,44 @@ public class MatrixGUI extends Application {
 
                 long[][] matrixA = MultiplicationsOfMatrix.generateMatrix(i, j);
                 long[][] matrixB = MultiplicationsOfMatrix.generateMatrix(j, k);
-                long[][] matrixC;
 
-                if (simple.isSelected())
-                    matrixC = MultiplicationsOfMatrix.simpleMultiplication(matrixA, matrixB);
-                else if (strassen.isSelected())
-                    matrixC = MultiplicationsOfMatrix.simpleMultiplication(matrixA, matrixB);
-                else
-                    matrixC = MultiplicationsOfMatrix.winogradMultiplication(matrixA, matrixB);
+                long[][] matrixC = makeCalculation(simple, strassen, matrixA, matrixB);
 
                 FileWork.writeMatrix(matrixA, outputPath.getText() + "/matrixA.txt");
                 FileWork.writeMatrix(matrixB, outputPath.getText() + "/matrixB.txt");
                 FileWork.writeMatrix(matrixC, outputPath.getText() + "/matrixC.txt");
+            } else if (enterMatrixRB.isSelected()) {
+                long[][] matrixA = twoKeyboardMatrices.getMatrixA();
+                long[][] matrixB = twoKeyboardMatrices.getMatrixB();
+
+                long[][] matrixC = makeCalculation(simple, strassen, matrixA, matrixB);
+
+                FileWork.writeMatrix(matrixA, outputPath.getText() + "/matrixA.txt");
+                FileWork.writeMatrix(matrixB, outputPath.getText() + "/matrixB.txt");
+                FileWork.writeMatrix(matrixC, outputPath.getText() + "/matrixC.txt");
+            } else {
+                long[][] matrixA = FileWork.readMatrix(filePane.getMatrixAPath());
+                long[][] matrixB = FileWork.readMatrix(filePane.getMatrixBPath());
+                long[][] matrixC;
+
+                matrixC = makeCalculation(simple, strassen, matrixA, matrixB);
+
+                FileWork.writeMatrix(matrixC, outputPath.getText() + "/matrixC.txt");
             }
+            pane.setRight(new VBox(new Text("Total amount of adding " + MultiplicationsOfMatrix.getAddingOperation()),
+                    new Text("Total amount of multiplying " + MultiplicationsOfMatrix.getAddingOperation())));
+            MultiplicationsOfMatrix.clearOperation();
         });
+    }
+
+    private long[][] makeCalculation(RadioButton simple, RadioButton strassen, long[][] matrixA, long[][] matrixB) {
+        long[][] matrixC;
+        if (simple.isSelected())
+            matrixC = MultiplicationsOfMatrix.simpleMultiplication(matrixA, matrixB);
+        else if (strassen.isSelected())
+            matrixC = MultiplicationsOfMatrix.simpleMultiplication(matrixA, matrixB);
+        else
+            matrixC = MultiplicationsOfMatrix.winogradMultiplication(matrixA, matrixB);
+        return matrixC;
     }
 }
