@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.Random;
 
 public class MultiplicationsOfMatrix {
+    private static long addingOperation;
+    private static long multiplicationOperation;
+
     private MultiplicationsOfMatrix() {
     }
 
@@ -14,6 +17,9 @@ public class MultiplicationsOfMatrix {
             for (int j = 0; j < matrix2[0].length; j++)
                 for (int k = 0; k < matrix2.length; k++)
                     resultMatrix[i][j] += matrix1[i][k] * matrix2[k][j];
+        long addingAndMultiplicationUsage = ((long) matrix1.length) * matrix2[0].length * matrix2.length;
+        addingOperation += addingAndMultiplicationUsage;
+        multiplicationOperation += addingAndMultiplicationUsage;
         return resultMatrix;
     }
 
@@ -155,6 +161,7 @@ public class MultiplicationsOfMatrix {
         for (int i = 0; i < matrix1.length; i++)
             for (int j = 0; j < matrix1[i].length; j++)
                 matrix3[i][j] = matrix1[i][j] - matrix2[i][j];
+        addingOperation += matrix1.length * matrix1[0].length;
         return matrix3;
     }
 
@@ -164,6 +171,7 @@ public class MultiplicationsOfMatrix {
             for (int j = 0; j < matrix1[i].length; j++) {
                 matrix3[i][j] = matrix1[i][j] + matrix2[i][j];
             }
+        addingOperation += matrix1.length * matrix1[0].length;
         return matrix3;
     }
 
@@ -174,5 +182,18 @@ public class MultiplicationsOfMatrix {
             for (int j = 0; j < m; j++)
                 matrix[i][j] = random.nextInt(10_000);
         return matrix;
+    }
+
+    public static long getAddingOperation() {
+        return addingOperation;
+    }
+
+    public static void clearOperation() {
+        MultiplicationsOfMatrix.addingOperation = 0;
+        MultiplicationsOfMatrix.multiplicationOperation = 0;
+    }
+
+    public static long getMultiplicationOperation() {
+        return multiplicationOperation;
     }
 }
