@@ -49,9 +49,22 @@ public class MatrixGUI extends Application {
         Button calculate = new Button("Calculate");
         Text outputPath = new Text("Click to choose directory for output");
         Button chooseFolder = new Button("Choose Folder");
+
+        ToggleGroup matrixMultiplication = new ToggleGroup();
+        RadioButton simple = new RadioButton();
+        simple.setToggleGroup(matrixMultiplication);
+        RadioButton strassen = new RadioButton();
+        strassen.setToggleGroup(matrixMultiplication);
+        strassen.setSelected(true);
+        RadioButton vino = new RadioButton();
+        vino.setToggleGroup(matrixMultiplication);
+        final HBox downHBox = new HBox(new Label(" - simple", simple),
+                new Label(" - strassen", strassen), new Label(" - vino", vino));
+        downHBox.setSpacing(10);
+
         final HBox outputFolderHBox = new HBox(new Label("Output: "), outputPath, chooseFolder);
         outputFolderHBox.setSpacing(10);
-        calculatingArea.getChildren().addAll(outputFolderHBox, calculate);
+        calculatingArea.getChildren().addAll(outputFolderHBox, downHBox, calculate);
 
         final twoKeyboardMatrices twoKeyboardMatrices = new twoKeyboardMatrices();
         pane.setCenter(twoKeyboardMatrices);
@@ -73,5 +86,28 @@ public class MatrixGUI extends Application {
         generateMatrixRB.setOnMouseClicked(e -> pane.setCenter(generatorPane));
         enterMatrixRB.setOnAction(e -> pane.setCenter(twoKeyboardMatrices));
         readMatrixRB.setOnAction(e -> pane.setCenter(filePane));
+
+        calculate.setOnAction(e -> {
+            if (generateMatrixRB.isSelected()) {
+                int i = generatorPane.getI();
+                int j = generatorPane.getJ();
+                int k = generatorPane.getK();
+
+                long[][] matrixA = MultiplicationsOfMatrix.generateMatrix(i, j);
+                long[][] matrixB = MultiplicationsOfMatrix.generateMatrix(j, k);
+                long[][] matrixC;
+
+                if (simple.isSelected())
+                    matrixC = MultiplicationsOfMatrix.simpleMultiplication(matrixA, matrixB);
+                else if (strassen.isSelected())
+                    matrixC = MultiplicationsOfMatrix.simpleMultiplication(matrixA, matrixB);
+                else
+                    matrixC = MultiplicationsOfMatrix.winogradMultiplication(matrixA, matrixB);
+
+                FileWork.writeMatrix(matrixA, outputPath.getText() + "/matrixA.txt");
+                FileWork.writeMatrix(matrixB, outputPath.getText() + "/matrixB.txt");
+                FileWork.writeMatrix(matrixC, outputPath.getText() + "/matrixC.txt");
+            }
+        });
     }
 }
