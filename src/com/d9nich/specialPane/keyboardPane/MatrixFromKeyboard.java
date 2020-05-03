@@ -1,4 +1,4 @@
-package com.d9nich.keyboardPane;
+package com.d9nich.specialPane.keyboardPane;
 
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;

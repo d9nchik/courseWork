@@ -1,6 +1,6 @@
 package com.d9nich;
 
-import com.d9nich.keyboardPane.twoKeyboardMatrices;
+import com.d9nich.specialPane.EnterChooserPane;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -29,19 +29,6 @@ public class MatrixGUI extends Application {
         BorderPane pane = new BorderPane();
         pane.setPadding(new Insets(10, 10, 10, 10));
 
-        ToggleGroup howToEnterMatrix = new ToggleGroup();
-        RadioButton generateMatrixRB = new RadioButton();
-        generateMatrixRB.setToggleGroup(howToEnterMatrix);
-        RadioButton enterMatrixRB = new RadioButton();
-        enterMatrixRB.setToggleGroup(howToEnterMatrix);
-        RadioButton readMatrixRB = new RadioButton();
-        readMatrixRB.setToggleGroup(howToEnterMatrix);
-        enterMatrixRB.setSelected(true);
-        final HBox hBox = new HBox(new Label(" - generate", generateMatrixRB),
-                new Label(" - enter from keyboard", enterMatrixRB), new Label(" - read file", readMatrixRB));
-        hBox.setSpacing(10);
-        pane.setTop(hBox);
-
         VBox calculatingArea = new VBox();
         pane.setBottom(calculatingArea);
         calculatingArea.setSpacing(5);
@@ -66,11 +53,8 @@ public class MatrixGUI extends Application {
         outputFolderHBox.setSpacing(10);
         calculatingArea.getChildren().addAll(outputFolderHBox, downHBox, calculate);
 
-        final twoKeyboardMatrices twoKeyboardMatrices = new twoKeyboardMatrices();
-        pane.setCenter(twoKeyboardMatrices);
-
-        final MatrixFilePane filePane = new MatrixFilePane();
-        final GeneratorPane generatorPane = new GeneratorPane();
+        EnterChooserPane centerPane = new EnterChooserPane();
+        pane.setCenter(centerPane);
 
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
@@ -83,42 +67,14 @@ public class MatrixGUI extends Application {
             outputPath.setText(selectedDirectory.getAbsolutePath());
         });
 
-        generateMatrixRB.setOnMouseClicked(e -> pane.setCenter(generatorPane));
-        enterMatrixRB.setOnAction(e -> pane.setCenter(twoKeyboardMatrices));
-        readMatrixRB.setOnAction(e -> pane.setCenter(filePane));
-
         calculate.setOnAction(e -> {
-            if (generateMatrixRB.isSelected()) {
-                int i = generatorPane.getI();
-                int j = generatorPane.getJ();
-                int k = generatorPane.getK();
+            long[][] matrixA = centerPane.getMatrixA();
+            long[][] matrixB = centerPane.getMatrixB();
+            long[][] matrixC = makeCalculation(simple, strassen, matrixA, matrixB);
 
-                long[][] matrixA = MultiplicationsOfMatrix.generateMatrix(i, j);
-                long[][] matrixB = MultiplicationsOfMatrix.generateMatrix(j, k);
-
-                long[][] matrixC = makeCalculation(simple, strassen, matrixA, matrixB);
-
-                FileWork.writeMatrix(matrixA, outputPath.getText() + "/matrixA.txt");
-                FileWork.writeMatrix(matrixB, outputPath.getText() + "/matrixB.txt");
-                FileWork.writeMatrix(matrixC, outputPath.getText() + "/matrixC.txt");
-            } else if (enterMatrixRB.isSelected()) {
-                long[][] matrixA = twoKeyboardMatrices.getMatrixA();
-                long[][] matrixB = twoKeyboardMatrices.getMatrixB();
-
-                long[][] matrixC = makeCalculation(simple, strassen, matrixA, matrixB);
-
-                FileWork.writeMatrix(matrixA, outputPath.getText() + "/matrixA.txt");
-                FileWork.writeMatrix(matrixB, outputPath.getText() + "/matrixB.txt");
-                FileWork.writeMatrix(matrixC, outputPath.getText() + "/matrixC.txt");
-            } else {
-                long[][] matrixA = FileWork.readMatrix(filePane.getMatrixAPath());
-                long[][] matrixB = FileWork.readMatrix(filePane.getMatrixBPath());
-                long[][] matrixC;
-
-                matrixC = makeCalculation(simple, strassen, matrixA, matrixB);
-
-                FileWork.writeMatrix(matrixC, outputPath.getText() + "/matrixC.txt");
-            }
+            FileWork.writeMatrix(matrixA, outputPath.getText() + "/matrixA.txt");
+            FileWork.writeMatrix(matrixB, outputPath.getText() + "/matrixB.txt");
+            FileWork.writeMatrix(matrixC, outputPath.getText() + "/matrixC.txt");
             pane.setRight(new VBox(new Text("Total amount of adding " + MultiplicationsOfMatrix.getAddingOperation()),
                     new Text("Total amount of multiplying " + MultiplicationsOfMatrix.getAddingOperation())));
             MultiplicationsOfMatrix.clearOperation();

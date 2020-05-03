@@ -1,4 +1,4 @@
-package com.d9nich;
+package com.d9nich.specialPane;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
