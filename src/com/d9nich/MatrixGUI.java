@@ -72,8 +72,10 @@ public class MatrixGUI extends Application {
             long[][] matrixB = centerPane.getMatrixB();
             long[][] matrixC = makeCalculation(simple, strassen, matrixA, matrixB);
 
-            FileWork.writeMatrix(matrixA, outputPath.getText() + "/matrixA.txt");
-            FileWork.writeMatrix(matrixB, outputPath.getText() + "/matrixB.txt");
+            if (centerPane.isSourceMatrixNeeded()) {
+                FileWork.writeMatrix(matrixA, outputPath.getText() + "/matrixA.txt");
+                FileWork.writeMatrix(matrixB, outputPath.getText() + "/matrixB.txt");
+            }
             FileWork.writeMatrix(matrixC, outputPath.getText() + "/matrixC.txt");
             pane.setRight(new VBox(new Text("Total amount of adding " + MultiplicationsOfMatrix.getAddingOperation()),
                     new Text("Total amount of multiplying " + MultiplicationsOfMatrix.getAddingOperation())));

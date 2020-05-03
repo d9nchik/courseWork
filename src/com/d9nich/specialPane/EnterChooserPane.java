@@ -65,4 +65,8 @@ public class EnterChooserPane extends BorderPane {
         }
         return matrix;
     }
+
+    public boolean isSourceMatrixNeeded() {
+        return !readMatrixRB.isSelected();
+    }
 }
