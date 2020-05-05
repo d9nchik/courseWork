@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="courseWork">
+    <output-path>$PROJECT_DIR$/out/artifacts/courseWork</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="com.d9nich.MatrixGUI" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="courseWork.jar">
+        <element id="module-output" name="courseWork" />
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

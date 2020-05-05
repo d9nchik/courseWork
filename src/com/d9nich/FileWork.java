@@ -14,6 +14,8 @@ public class FileWork {
         File file = new File(nameOfFile);
         if (!file.exists())
             System.out.println("File doesn't exist");
+        if (nameOfFile.matches(".*\\.txt"))
+            System.out.println("File name is incorrect!");
         try (Scanner input = new Scanner(file)) {
             ArrayList<long[]> arrayList = new ArrayList<>();
             while (input.hasNext()) {
