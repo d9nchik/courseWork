@@ -88,7 +88,7 @@ public class MatrixGUI extends Application {
         if (simple.isSelected())
             matrixC = MultiplicationsOfMatrix.simpleMultiplication(matrixA, matrixB);
         else if (strassen.isSelected())
-            matrixC = MultiplicationsOfMatrix.simpleMultiplication(matrixA, matrixB);
+            matrixC = MultiplicationsOfMatrix.strassenMultiplication(matrixA, matrixB);
         else
             matrixC = MultiplicationsOfMatrix.winogradMultiplication(matrixA, matrixB);
         return matrixC;
