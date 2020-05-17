@@ -5,14 +5,19 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-        final long[][] matrix1 = MultiplicationsOfMatrix.generateMatrix(65, 65);
-        final long[][] matrix2 = MultiplicationsOfMatrix.generateMatrix(65, 65);
-        final long[][] matrixSimple = MultiplicationsOfMatrix.simpleMultiplication(matrix1, matrix2);
-        System.out.println(MultiplicationsOfMatrix.getAddingOperation() + "\t" + MultiplicationsOfMatrix.getMultiplicationOperation());
+        final long[][] matrix1 = MultiplicationsOfMatrix.generateMatrix(100, 100);
+        final long[][] matrix2 = MultiplicationsOfMatrix.generateMatrix(100, 100);
+        MultiplicationsOfMatrix.simpleMultiplication(matrix1, matrix2);
+        System.out.println(MultiplicationsOfMatrix.getAddingOperation() + "\t"
+                + MultiplicationsOfMatrix.getMultiplicationOperation());
         MultiplicationsOfMatrix.clearOperation();
-        final long[][] matrixVino = MultiplicationsOfMatrix.winogradMultiplication(matrix1, matrix2);
-        System.out.println(MultiplicationsOfMatrix.getAddingOperation() + "\t" + MultiplicationsOfMatrix.getMultiplicationOperation());
-        System.out.println(checker(matrixSimple, matrixVino));
+        MultiplicationsOfMatrix.strassenMultiplication(matrix1, matrix2);
+        System.out.println(MultiplicationsOfMatrix.getAddingOperation() + "\t"
+                + MultiplicationsOfMatrix.getMultiplicationOperation());
+        MultiplicationsOfMatrix.clearOperation();
+        MultiplicationsOfMatrix.winogradMultiplication(matrix1, matrix2);
+        System.out.println(MultiplicationsOfMatrix.getAddingOperation() + "\t"
+                + MultiplicationsOfMatrix.getMultiplicationOperation());
     }
 
     public static void showMatrix(long[][] matrix) {
